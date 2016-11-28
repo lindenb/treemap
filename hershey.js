@@ -218,6 +218,7 @@ Hershey.prototype.svgPath5 = function(
 			return this.svgPath5(s,mid-len/2.0,y,len,height);
 			}
 		
+		
 		for(var i=0;i < s.length;++i)
 			{
 			var n,array=this.charToPathOp(s.charAt(i));

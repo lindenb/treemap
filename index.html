@@ -112,12 +112,24 @@ function handleFileSelect(evt)
 			{
 			var sheet = Spreadsheet.parse(e.target.result);
 			spreadsheet = sheet;
-			var div= document.getElementById('categories');
+			var div= document.getElementById('categorieshdr');
+			while( div.hasChildNodes() ) div.removeChild(div.firstChild);
 			for(var i=0;i < sheet.selectors.length;++i)
 				{
-				div.appendChild(sheet.selectors[i].div);
+				var td = document.createElement("th");
+				div.appendChild(td);
+				td.appendChild(sheet.selectors[i].label);
+				}
+			div= document.getElementById('categoriesselect');
+			while( div.hasChildNodes() ) div.removeChild(div.firstChild);
+			for(var i=0;i < sheet.selectors.length;++i)
+				{
+				var td = document.createElement("td");
+				div.appendChild(td);
+				td.appendChild(sheet.selectors[i].select);
 				sheet.selectors[i].select.addEventListener("change",repaint);
 				}
+			
 			var colsdiv =  document.getElementById('colsdiv');
 			while( colsdiv.hasChildNodes() ) colsdiv.removeChild(colsdiv.firstChild);
 			for(var i=0;i < sheet.columns.length;++i)
@@ -139,14 +151,22 @@ function handleFileSelect(evt)
 <body>
 <div id="main">
 
-<div id="categories">
+<div id="categories" class="centerTable">
+	<table class="centerTable">
+	<thead>
+		<tr id="categorieshdr"></tr>
+	</thead>
+	<tbody>
+		<tr  id="categoriesselect"></tr>
+	</tbody>
+	</table>
 </div>
 <hr/>
 <div id="drawingarea" class="drawingareadiv"></div>
 <hr/>
 
-<div id="tablecols">
-<table >
+<div id="tablecols" >
+<table class="centerTable">
 	<thead>
 		<tr>
 			<th>Column</th>

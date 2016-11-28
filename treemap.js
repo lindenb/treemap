@@ -98,18 +98,16 @@ function Row(owner,index,data) {
 function Selector(owner,index) {
 	this.owner=owner;
 	this.index = index;
-	this.div = document.createElement("span");
+
 	
-	var lbl= document.createElement("label");
-	lbl.setAttribute("for","cat"+i);
-	lbl.appendChild(document.createTextNode("Cat. "+(index+1)+":"));
-	this.div.appendChild(lbl);
+	this.label = document.createElement("label");
+	this.label.setAttribute("for","cat"+i);
+	this.label.appendChild(document.createTextNode("Category  n°"+(index+1)));
 	
 	this.select = document.createElement("select");
 	this.select.setAttribute("class","selcol");
 	this.select.setAttribute("id","cat"+i);
 	this.select.setAttribute("name","cat"+i);
-	this.div.appendChild(this.select);
 	
 	var opt = document.createElement("option");
 	this.select.appendChild(opt);
@@ -127,8 +125,7 @@ function Selector(owner,index) {
 		this.select.appendChild(opt);
 		opt.setAttribute("value","");
 		opt.setAttribute("label",col.getLabel());
-		opt.appendChild(document.createTextNode(col.getName()));
-		
+		opt.appendChild(document.createTextNode(col.getName()));		
 		}
 	
 	}
