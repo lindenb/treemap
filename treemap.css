@@ -1,0 +1,57 @@
+#main	{
+	background-color:white;
+	margin:20px;
+	padding:20px;
+	font-size:18px;
+	}
+
+#categories {
+	text-align:center;
+	background-color:white;
+	font-size:18px;
+	}
+
+.drawingareadiv {
+	background-color:white;
+	text-align:center;
+	margin:20px;
+	padding:20px;
+	}
+.selcol  {
+	font-size:18px;
+	width:150px;
+	}
+.optcol {
+	font-size:12px;
+	}
+
+table {
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #ccc;
+  text-align: center;
+}
+th {
+  background: lightblue;
+  border-color: white;
+}
+
+
+select button {
+    background-color: gray; 
+    border: none;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.maryland {
+	font-size:9px;
+	color:gray;
+	}
+

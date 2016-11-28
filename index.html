@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+<meta charset='utf-8'/>
+<title>TreeMap</title>
+<link rel="stylesheet" type="text/css" href="treemap.css"/>
+<script src="hershey.js"></script>
+<script src="treemap.js"></script>
+<script>
+var spreadsheet=null;
+
+function repaint()
+	{
+	var drawingarea =  document.getElementById('drawingarea');
+	while( drawingarea.hasChildNodes() ) drawingarea.removeChild(drawingarea.firstChild);
+	if(spreadsheet==null) return;
+	var root = new TreePack();
+	root.name="ALL";
+	root.bounds = new Rectangle(0,0,1000,1000);
+	try 	{
+		root.bounds.width = parseInt( document.getElementById('dimwidth').value);
+		root.bounds.height = parseInt( document.getElementById('dimheight').value);
+		}
+	catch(err)
+		{
+		root.bounds.width = 500;
+		root.bounds.height = 500;
+		}
+	
+	var activecolumns = [];
+	for(var i=0;i < spreadsheet.selectors.length;++i)
+		{
+		var idx = spreadsheet.selectors[i].select.selectedIndex;
+		if( idx==-1 || idx==0) continue;
+		var ci = spreadsheet.columns[idx-1];
+		
+		ci.updatePattern();
+		activecolumns.push(ci);
+		}
+
+	if( activecolumns.length==0) return;
+	for(var lineIdx in spreadsheet.rows)
+		{
+		var curr = root;
+		var tokens = spreadsheet.rows[lineIdx].data;
+		var weight = parseFloat(tokens[tokens.length-1]);
+		root.weight += weight;
+		
+		var ok_line=true;
+
+
+		for(var i=0; i< activecolumns.length ;++i) {
+			var key = tokens[activecolumns[i].index];
+			if( !activecolumns[i].accept(key) ) {
+				ok_line = false;
+				break;
+				}
+			}
+		 
+		if(!ok_line) continue;
+
+		for(var i=0; i< activecolumns.length ;++i) {
+			var key = tokens[activecolumns[i].index];
+			
+			if( !(key in curr.children) )
+				{
+				
+				var c= new TreePack;
+				c.category = activecolumns[i].name;
+				c.name = key;
+				c.parent = curr;
+				c.weight = weight;
+				
+				curr.children[key] = c;
+				curr = c;
+				}
+			else
+				{
+				var c= curr.children[key];
+				c.weight += weight;
+				curr = c;
+				}
+			}
+		}
+	
+	console.log("paint");
+	if(root.isLeaf())
+		{
+		var c= new TreePack;
+		c.category = "ALL";
+		c.name = "ALL";
+		c.parent = root;
+		c.weight = root.weight;
+		root.children[c.name] = c;
+		}
+	drawingarea.appendChild( root.svg(new Packer()) );
+	}
+
+function handleFileSelect(evt)
+	{
+	var files = evt.target.files; // FileList object
+	if(files.length!=1) return;
+	var reader = new FileReader();
+	reader.onprogress=function()
+		{
+
+		};
+	reader.onloadend=function(e)
+		{
+		if(e.target.result==null) return;
+		try
+			{
+			var sheet = Spreadsheet.parse(e.target.result);
+			spreadsheet = sheet;
+			var div= document.getElementById('categories');
+			for(var i=0;i < sheet.selectors.length;++i)
+				{
+				div.appendChild(sheet.selectors[i].div);
+				sheet.selectors[i].select.addEventListener("change",repaint);
+				}
+			var colsdiv =  document.getElementById('colsdiv');
+			while( colsdiv.hasChildNodes() ) colsdiv.removeChild(colsdiv.firstChild);
+			for(var i=0;i < sheet.columns.length;++i)
+				{
+				var ci = sheet.columns[i];
+				colsdiv.appendChild(ci.tr);
+				}
+			repaint();
+			}
+		catch(err)
+			{
+			alert("error loading file "+err);
+			}
+		};
+	reader.readAsText(files[0]);
+	}
+</script>
+</head>
+<body>
+<div id="main">
+
+<div id="categories">
+</div>
+<hr/>
+<div id="drawingarea" class="drawingareadiv"></div>
+<hr/>
+
+<div id="tablecols">
+<table >
+	<thead>
+		<tr>
+			<th>Column</th>
+			<th>Inverse</th>
+			<th>Regex</th>
+		</tr>
+	</thead>
+	<tbody id="colsdiv">
+		
+	</tbody>
+</table>
+</div>
+<div>
+	<div>Dimension: <label for="dimwidth">Width: </label><input id="dimwidth" type="range" min="50" max="5000" step="10" value="500" onchange="repaint();"/> <label for="dimheight">Height: </label><input id="dimheight" type="range" min="50" max="5000" step="10" value="500" onchange="repaint();"/></div>
+	<div><button onclick="repaint();">Refresh</button></div>
+</div>
+<div id="ZmlsZXMK">
+<hr/>
+<label for="ZmlsZXMKfiles">Select a TSV file</label>:<input type="file" id="ZmlsZXMKfiles"/>
+</div>
+</div>
+<hr/>
+<div>Pierre Lindenbaum PhD. 2016.</div>
+<div class="maryland">The treemap algorithm was found at <a href="http://www.cs.umd.edu/hcil/treemap-history/">http://www.cs.umd.edu/hcil/treemap-history/</a> under the Mozilla Public License
+Version 1.1. The Initial Developers of the Original Code is Ben Bederson and Martin Wattinberg. Contributor(s): Ben Bederson; Martin Wattenberg. The Treemap Algorithms are copyrighted by the University of Maryland, and are available for all users, in accordance with the Open Source model. It is available as free software for license according to the Mozilla Public License. The University of Maryland is not responsible for applications which use Treemap Algorithms that infringe on third party's intellectual property protection such as patents.</div>
+</body>
+
+<script>
+document.getElementById('ZmlsZXMKfiles').addEventListener('change', handleFileSelect, false);
+</script>
+
+</html>
