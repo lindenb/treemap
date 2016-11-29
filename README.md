@@ -1,5 +1,12 @@
-# treemap
-displaying treemaps
+# Motivation
+
+displaying data in the browser using TreeMaps.
+
+Live demo at : https://lindenb.github.io/treemap/index.html
+
+# Author
+
+* Pierre Lindenbaum PhD. @yokofakun Institut du Thorax . Nantes. France.
 
 # License:
 
