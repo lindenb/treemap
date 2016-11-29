@@ -3,6 +3,7 @@
 	margin:20px;
 	padding:20px;
 	font-size:18px;
+	font-family: "Nimbus sans L", serif;
 	}
 
 #categories {
@@ -29,13 +30,18 @@ table {
   border-collapse: collapse;
 }
 
+caption {
+   background: lightblue;
+  text-align: center;
+}
+
 td, th {
   border: 1px solid #ccc;
   text-align: center;
 }
 th {
   background: lightblue;
-  border-color: white;
+  border:1px solid #ccc;
 }
 
 
@@ -60,8 +66,7 @@ select button {
 	}
 
 .tsvdesc {
-	font-size:9px;
-	color:gray;
+	font-size:12px;
 	}
 
 svg {

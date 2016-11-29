@@ -115,6 +115,7 @@ Hershey.prototype.charToHersheyString=function(c)
 			case ']': return " 12MWSHS\\ RTHT\\ ROHTH RO\\T\\";//1224
 			case '{': return " 38LWSHQIPJPLRNSP RQIPL RSNRQ RPJQLSNSPRQPRRSSTSVQXPZ RRSSV RPXQ[ RSTRVPXPZQ[S\\"; 
 			case '}': return " 38MXQHSITJTLRNQP RSITL RQNRQ RTJSLQNQPRQTRRSQTQVSXTZ RRSQV RTXS[ R QTRVTXTZS[Q\\";
+			case '+': return "  6LXRNRV RNRVR";
 			default:   console.log("missing" +c); return null;
 			}
 		};
