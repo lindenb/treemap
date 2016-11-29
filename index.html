@@ -57,7 +57,7 @@ function repaint()
 				}
 			}
 		 
-		if(!ok_line) continue;
+		if(!ok_line) {continue;}
 
 		for(var i=0; i< activecolumns.length ;++i) {
 			var key = tokens[activecolumns[i].index];
@@ -70,7 +70,6 @@ function repaint()
 				c.name = key;
 				c.parent = curr;
 				c.weight = weight;
-				
 				curr.children[key] = c;
 				curr = c;
 				}
@@ -86,6 +85,7 @@ function repaint()
 	console.log("paint");
 	if(root.isLeaf())
 		{
+		console.log("root is leaf");
 		var c= new TreePack;
 		c.category = "ALL";
 		c.name = "ALL";
@@ -185,11 +185,11 @@ function handleFileSelect(evt)
 </div>
 <div id="ZmlsZXMK">
 <hr/>
-<label for="ZmlsZXMKfiles">Select a TSV file</label>:<input type="file" id="ZmlsZXMKfiles"/>
+<label for="ZmlsZXMKfiles">Select a TSV file</label>:<input type="file" id="ZmlsZXMKfiles"/>. <span class="tsvdesc">Input is a tab delimited file, the first row is the header and will be used to label the columns. Each remaining row should end with a positive integer that is the count of each category. See some <a href="examples.html">examples</a>.</span>
 </div>
 </div>
 <hr/>
-<div>Pierre Lindenbaum PhD. 2016.</div>
+<div>Pierre Lindenbaum PhD. 2016. <a href="https://github.com/lindenb/treemap">https://github.com/lindenb/treemap</a>.</div>
 <div class="maryland">The treemap algorithm was found at <a href="http://www.cs.umd.edu/hcil/treemap-history/">http://www.cs.umd.edu/hcil/treemap-history/</a> under the Mozilla Public License
 Version 1.1. The Initial Developers of the Original Code is Ben Bederson and Martin Wattinberg. Contributor(s): Ben Bederson; Martin Wattenberg. The Treemap Algorithms are copyrighted by the University of Maryland, and are available for all users, in accordance with the Open Source model. It is available as free software for license according to the Mozilla Public License. The University of Maryland is not responsible for applications which use Treemap Algorithms that infringe on third party's intellectual property protection such as patents.</div>
 </body>

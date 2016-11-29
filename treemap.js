@@ -507,6 +507,7 @@ Packer.prototype.sortDescending = function(items)
 	
 Packer.prototype.layout4 = function(items,  start,  end, bounds)
     {
+    
         if (start>end) return;
             
         if (end-start<2)
@@ -532,7 +533,9 @@ Packer.prototype.layout4 = function(items,  start,  end, bounds)
                 if (this.normAspect(h,w,a,b+q) > aspect) break;
                 mid++;
                 b+=q;
+
             }
+
             this.layoutBest(items,start,mid,new Rectangle(x,y,w,h*b));
             this.layout4(items,mid+1,end, new Rectangle(x,y+h*b,w,h*(1-b)));
         }
@@ -560,7 +563,7 @@ Packer.prototype.aspect = function( big,  small,  a,  b)
 Packer.prototype.normAspect = function( big,  small,  a,  b)
     {
         var x= this.aspect(big,small,a,b);
-        if (x<1) return 1/x;
+        if (x<1.0) return 1.0/x;
         return x;
     };
 
@@ -578,7 +581,7 @@ Packer.prototype.layoutBest = function( items,  start,  end,  bounds)
 Packer.prototype.sliceLayout = function(items,  start,  end,  bounds,  orientation,  order)
         {
             var total= this.sum(items, start, end);
-            var a=0;
+            var a=0.0;
             var vertical=(orientation==Orientation.VERTICAL);
            
             for (var i=start; i<=end; i++)
@@ -591,22 +594,30 @@ Packer.prototype.sliceLayout = function(items,  start,  end,  bounds,  orientati
                     r.x=bounds.getX();
                     r.width=bounds.getWidth();
                     if (order==Direction.ASCENDING)
+                    	{
                         r.y=bounds.getY()+bounds.getHeight()*a;
+                        }
                     else
+                    	{
                         r.y=bounds.getY()+bounds.getHeight()*(1-a-b);
+                        }
                     r.height=bounds.getHeight()*b;
                 }
                 else
                 {
                     if (order==Direction.ASCENDING)
+                    	{
                         r.x=bounds.getX()+bounds.getWidth()*a;
+                        }
                     else
+                    	{
                         r.x=bounds.getX()+bounds.getWidth()*(1-a-b);
+                        }
                     r.width=bounds.getWidth()*b;
                     r.y=bounds.getY();
                     r.height=bounds.getHeight();
                 }
-     
+     		
                 items[i].setBounds(r);
                 a+=b;
             }

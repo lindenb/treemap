@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+<meta charset='utf-8'/>
+<title>TreeMap: Examples</title>
+<link rel="stylesheet" type="text/css" href="treemap.css"/>
+</head>
+<body>
+<div id="main">
+<h1>Examples</h1>
+<h2>SAM flags</h2>
+The file <a href="example-samflags-01.tsv">example-samflags-01.tsv</a> describes the reads in a BAM/SAM WGS file. It was produced using <a href="https://github.com/lindenb/jvarkit/wiki/BioAlcidae">Bioalcidae</a> and the following script:<pre>out.println("read_chrom\tmate_chrom\tchromchrom\tstrand\tproperpair\tfailsqc\tsuppl\tdupl\tprimary\tCount");
+var count={};
+while(iter.hasNext()) { 
+	var rec = iter.next();
+	var readchrom=".";
+	var matechrom=".";
+	var chromchrom=".";
+	var strand=".";
+	var properpair=".";
+	var failsqc=(rec.getReadFailsVendorQualityCheckFlag()?"FAILSQC":".");
+	var suppl = ".";
+	var dupl = ".";
+	var primary=".";
+	
+	if( !rec.getReadUnmappedFlag() )
+		{
+		readchrom = rec.getReferenceName();
+		primary = (rec.getNotPrimaryAlignmentFlag()?"SECONDARY":"PRIMARY");
+		suppl = (rec.getSupplementaryAlignmentFlag()?"SUPPL":"OK");
+		dupl = (rec.getDuplicateReadFlag()?"DUPLICATE":"OK");
+		}
+	if( rec.getReadPairedFlag())
+		{
+		if( !rec.getMateUnmappedFlag() )
+			{
+			matechrom = rec.getMateReferenceName();
+			if( rec.getReadUnmappedFlag() )
+				{
+				//nothing
+				}
+			else if( readchrom==matechrom)
+				{
+				chromchrom="=";
+				
+				if(  rec.getReadNegativeStrandFlag() &amp;&amp; rec.getMateNegativeStrandFlag() )
+					{
+					strand="--";
+					}
+				else if( !rec.getReadNegativeStrandFlag() &amp;&amp; !rec.getMateNegativeStrandFlag() )
+					{
+					strand="++";
+					}
+				else
+					{
+					strand="+-";
+					properpair=(rec.getProperPairFlag()?"PROPERPAIR":"NO");
+					}
+				
+				}
+			else if( readchrom &lt; matechrom) {
+				chromchrom = readchrom+"/"+matechrom;
+				}
+			else	{
+				chromchrom = matechrom+"/"+readchrom;
+				}
+			
+			}
+		}
+	var s=readchrom+"\t"+matechrom+"\t"+chromchrom+"\t"+strand+"\t"+properpair+"\t"+failsqc+"\t"+suppl+"\t"+dupl+"\t"+primary;
+	if( s in count) {
+		count[s]++;
+		}
+	else
+		{
+		count[s]=1;
+		}
+	}
+for(var s in count)
+	{
+	out.println(s+"\t"+count[s]);
+	}
+</pre> 
+</div>
+</body>
+</html>
+
