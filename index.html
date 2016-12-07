@@ -49,9 +49,9 @@ function repaint()
 		var ok_line=true;
 
 
-		for(var i=0; i< activecolumns.length ;++i) {
-			var key = tokens[activecolumns[i].index];
-			if( !activecolumns[i].accept(key) ) {
+		for(var i=0; i< spreadsheet.columns.length ;++i) {
+			var key = tokens[spreadsheet.columns[i].index];
+			if( !spreadsheet.columns[i].accept(key) ) {
 				ok_line = false;
 				break;
 				}
