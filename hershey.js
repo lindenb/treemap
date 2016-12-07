@@ -209,7 +209,7 @@ Hershey.prototype.svgPath5 = function(
 		var sw="";
 		
 		
-		if(s.length==0 || width==0 || height==0) return "";
+		if(s.length==0 || width<=0 || height<=0) return "";
 		
 		var dx=width/s.length;
 		if( dx > height + 1.0)
@@ -218,7 +218,12 @@ Hershey.prototype.svgPath5 = function(
 			var mid = x+width/2.0;
 			return this.svgPath5(s,mid-len/2.0,y,len,height);
 			}
-		
+		if( height > width )
+			{
+			var nh= width - 1.0;
+			var mid = y+height/2.0;
+			return this.svgPath5(s,x,mid-nh/2.0,width,nh);
+			} 
 		
 		for(var i=0;i < s.length;++i)
 			{
